@@ -23,7 +23,7 @@ Route::controller(NewsController::class)->prefix('admin')->group(function() {
 });
 
 //「http://XXXXXX.jp/XXX というアクセスが来たときに、 AAAControllerのbbbというAction に渡すRoutingの設定」を書いてみてください
-Route::controller(AAAController::class)->prefix('admin')->group(function() {
+Route::controller(AAAController::class)->group(function() {
     Route::get('XXX', 'bbb');
 });
 
