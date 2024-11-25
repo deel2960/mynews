@@ -27,6 +27,11 @@ Route::controller(NewsController::class)->prefix('admin')->name('admin.')->middl
     Route::get('news/delete', 'delete')->name('news.delete');
 });
 
+use App\Http\Controllers\NewsController as PublicNewsController;
+Route::get('/', [PublicNewsController::class, 'index'])->name('news.index');
+
+
+
 //「http://XXXXXX.jp/XXX というアクセスが来たときに、 AAAControllerのbbbというAction に渡すRoutingの設定」を書いてみてください
 Route::controller(AAAController::class)->group(function() {
     Route::get('XXX', 'bbb');
@@ -39,10 +44,12 @@ Route::controller(ProfileController::class)->prefix('admin')->name('admin.')->mi
     Route::post('profile/create', 'create')->name('profile.create');
     Route::get('profile/edit', 'edit')->name('profile.edit');
     Route::post('profile/edit', 'update')->name('profile.update');
+    Route::get('profile', 'index')->name('profile.index');
 });
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //練習
+
 
