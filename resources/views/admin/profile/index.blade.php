@@ -1,69 +1,57 @@
-@extends('layouts.front')
+@extends('layouts.admin')
+@section('title', '登録済みプロフィールの一覧')
 
 @section('content')
     <div class="container">
-        <hr color="#c0c0c0">
-        @if (!is_null($headline))
-            <div class="row">
-                <div class="headline col-md-10 mx-auto">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="caption mx-auto">
-                                <div class="name p-2">
-                                    <h1>{{ Str::limit($headline->name, 70) }}</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="caption mx-auto">
-                                <div class="gender p-2">
-                                    <h1>{{ Str::limit($headline->gender, 70) }}</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="caption mx-auto">
-                                <div class="hobby p-2">
-                                    <h1>{{ Str::limit($headline->hobby, 70) }}</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="introduction mx-auto">{{ Str::limit($headline->introduction, 650) }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-        <hr color="#c0c0c0">
         <div class="row">
-            <div class="posts col-md-8 mx-auto mt-3">
-                @foreach($posts as $post)
-                    <div class="post">
-                        <div class="row">
-                            <div class="text col-md-6">
-                                <div class="date">
-                                    {{ $post->updated_at->format('Y年m月d日') }}
-                                </div>
-                                <div class="name">
-                                    {{ Str::limit($post->name, 150) }}
-                                </div>
-                                <div class="gender">
-                                    {{ Str::limit($post->gender, 150) }}
-                                </div>
-                                <div class="hobby">
-                                    {{ Str::limit($post->hobby, 150) }}
-                                </div>
-                                <div class="introduction mt-3">
-                                    {{ Str::limit($post->body, 1500) }}
-                                </div>
-                            </div>
+            <h2>プロフィール一覧</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{{ route('admin.profile.add') }}" role="button" class="btn btn-primary">新規作成</a>
+            </div>
+            <div class="col-md-8">
+                <form action="{{ route('admin.profile.index') }}" method="get">
+                    <div class="form-group row">
+                        <label class="col-md-2">名前</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="cond_name" value="{{ $cond_name }}">
+                        </div>
+                        <div class="col-md-2">
+                            @csrf
+                            <input type="submit" class="btn btn-primary" value="検索">
                         </div>
                     </div>
-                    <hr color="#c0c0c0">
-                @endforeach
+                </form>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="list-profile col-md-12 mx-auto">
+                <div class="row">
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="20%">名前</th>
+                                <th width="20%">性別</th>
+                                <th width="20%">趣味</th>
+                                <th width="50%">自己紹介欄</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($posts as $profile)
+                                <tr>
+                                    <th>{{ $profile->id }}</th>
+                                    <td>{{ Str::limit($profile->name, 100) }}</td>
+                                    <td>{{ Str::limit($profile->gender, 100) }}</td>
+                                    <td>{{ Str::limit($profile->hobby, 100) }}</td>
+                                    <td>{{ Str::limit($profile->introduction, 250) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

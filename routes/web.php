@@ -27,11 +27,6 @@ Route::controller(NewsController::class)->prefix('admin')->name('admin.')->middl
     Route::get('news/delete', 'delete')->name('news.delete');
 });
 
-use App\Http\Controllers\NewsController as PublicNewsController;
-Route::get('/', [PublicNewsController::class, 'index'])->name('news.index');
-
-
-
 //「http://XXXXXX.jp/XXX というアクセスが来たときに、 AAAControllerのbbbというAction に渡すRoutingの設定」を書いてみてください
 Route::controller(AAAController::class)->group(function() {
     Route::get('XXX', 'bbb');
@@ -40,16 +35,19 @@ Route::controller(AAAController::class)->group(function() {
 //【応用】 前章でAdmin/ProfileControllerを作成し、add Action, edit Actionを追加しました。web.phpを編集して、admin/profile/create にアクセスしたら ProfileController の add Action に、admin/profile/edit にアクセスしたら ProfileController の edit Action に割り当てるように設定してください
 use App\Http\Controllers\Admin\ProfileController;
 Route::controller(ProfileController::class)->prefix('admin')->name('admin.')->middleware('auth')->group(function() {
-    Route::get('profile/create ', 'add')->name('profile.add');
+    Route::get('profile/create', 'add')->name('profile.add');
     Route::post('profile/create', 'create')->name('profile.create');
+    Route::get('profile', 'index')->name('profile.index');
     Route::get('profile/edit', 'edit')->name('profile.edit');
     Route::post('profile/edit', 'update')->name('profile.update');
-    Route::get('profile', 'index')->name('profile.index');
+    Route::get('profile/delete', 'delete')->name('profile.delete');
 });
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //練習
+use App\Http\Controllers\NewsController as PublicNewsController;
+Route::get('/', [PublicNewsController::class, 'index'])->name('news.index');
 
 
